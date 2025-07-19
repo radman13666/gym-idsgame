@@ -5,7 +5,8 @@ import time
 from gym import error
 # from gym.utils import atomic_write
 from gym_idsgame.envs.rendering.util.atomic_write import atomic_write
-from gym.utils.json_utils import json_encode_np
+from gym_idsgame.envs.rendering.util.numpy_encoder import NumpyEncoder
+# from gym.utils.json_utils import json_encode_np
 
 class StatsRecorder(object):
     def __init__(self, directory, file_prefix, autoreset=False, env_id=None):
@@ -116,4 +117,4 @@ class StatsRecorder(object):
                 'episode_rewards': self.episode_rewards_1,
                 'episode_rewards_2': self.episode_rewards_2,
                 'episode_types': self.episode_types,
-            }, f, default=json_encode_np)
+            }, f, cls=NumpyEncoder)

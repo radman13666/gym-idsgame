@@ -4,7 +4,8 @@ import os, json, numpy as np, six
 # from gym.utils import atomic_write, closer
 from gym_idsgame.envs.rendering.util.monitor_closer import MonitorCloser
 from gym_idsgame.envs.rendering.util.atomic_write import atomic_write
-from gym.utils.json_utils import json_encode_np
+from gym_idsgame.envs.rendering.util.numpy_encoder import NumpyEncoder
+# from gym.utils.json_utils import json_encode_np
 import imageio
 from gym_idsgame.envs.rendering.video import idsgame_video_recorder
 from gym_idsgame.envs.rendering.video import idsgame_stats_recorder
@@ -137,7 +138,7 @@ class IdsGameMonitor(Wrapper):
                 'videos': [(os.path.basename(v), os.path.basename(m))
                            for v, m in self.videos],
                 'env_info': self._env_info(),
-            }, f, default=json_encode_np)
+            }, f, cls=NumpyEncoder)
 
     def close(self):
         """Flush all monitor data to disk and close any open rending windows."""
