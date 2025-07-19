@@ -44,8 +44,8 @@ class PPOAgent(PolicyGradientAgent):
         self.initialize_models()
         self.tensorboard_writer.add_hparams(self.config.hparams_dict(), {})
         self.machine_eps = np.finfo(np.float32).eps.item()
-        self.env.unwrapped.idsgame_config.save_trajectories = False
-        self.env.unwrapped.idsgame_config.save_attack_stats = False
+        self.env.idsgame_config.save_trajectories = False
+        self.env.idsgame_config.save_attack_stats = False
         self.train_attacker = True
         self.train_defender = True
 
