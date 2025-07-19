@@ -1,7 +1,9 @@
 from gym import Wrapper
 from gym import error, version, logger
 import os, json, numpy as np, six
-from gym.utils import atomic_write, closer
+# from gym.utils import atomic_write, closer
+from gym_idsgame.envs.rendering.util.monitor_closer import MonitorCloser
+from gym_idsgame.envs.rendering.util.render_util import atomic_write
 from gym.utils.json_utils import json_encode_np
 import imageio
 from gym_idsgame.envs.rendering.video import idsgame_video_recorder
@@ -125,7 +127,7 @@ class IdsGameMonitor(Wrapper):
         # up from the filesystem later.
         path = os.path.join(self.directory, '{}.manifest.{}.manifest.json'.format(self.file_prefix, self.file_infix))
         logger.debug('Writing training manifest file to %s', path)
-        with atomic_write.atomic_write(path) as f:
+        with atomic_write(path) as f:
             # We need to write relative paths here since people may
             # move the training_dir around. It would be cleaner to
             # already have the basenames rather than basename'ing
@@ -291,7 +293,8 @@ def capped_cubic_video_schedule(episode_id):
 def disable_videos(episode_id):
     return False
 
-monitor_closer = closer.Closer()
+# monitor_closer = closer.Closer()
+monitor_closer = MonitorCloser()
 
 # This method gets used for a sanity check in scoreboard/api.py. It's
 # not intended for use outside of the gym codebase.
