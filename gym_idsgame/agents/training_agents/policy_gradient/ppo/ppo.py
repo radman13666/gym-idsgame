@@ -56,19 +56,19 @@ class PPOAgent(PolicyGradientAgent):
         """
 
         # Initialize models
-        self.attacker_policy_network = FFNActorCritic(self.config.input_dim, self.config.output_dim_attacker,
+        self.attacker_policy_network = FFNActorCritic(self.config.input_dim_attacker, self.config.output_dim_attacker,
                                                       self.config.hidden_dim,
                                                       num_hidden_layers=self.config.num_hidden_layers,
                                                       hidden_activation=self.config.hidden_activation)
-        self.attacker_policy_network_old = FFNActorCritic(self.config.input_dim, self.config.output_dim_attacker,
+        self.attacker_policy_network_old = FFNActorCritic(self.config.input_dim_attacker, self.config.output_dim_attacker,
                                                       self.config.hidden_dim,
                                                       num_hidden_layers=self.config.num_hidden_layers,
                                                       hidden_activation=self.config.hidden_activation)
-        self.defender_policy_network = FFNActorCritic(self.config.input_dim, self.config.output_dim_defender,
+        self.defender_policy_network = FFNActorCritic(self.config.input_dim_defender, self.config.output_dim_defender,
                                                       self.config.hidden_dim,
                                                       num_hidden_layers=self.config.num_hidden_layers,
                                                       hidden_activation=self.config.hidden_activation)
-        self.defender_policy_network_old = FFNActorCritic(self.config.input_dim, self.config.output_dim_defender,
+        self.defender_policy_network_old = FFNActorCritic(self.config.input_dim_defender, self.config.output_dim_defender,
                                                       self.config.hidden_dim,
                                                       num_hidden_layers=self.config.num_hidden_layers,
                                                       hidden_activation=self.config.hidden_activation)
