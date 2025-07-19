@@ -77,7 +77,7 @@ class Runner:
                        save_dir=config.output_dir + "/results/data/" + str(config.random_seed),
                        initial_state_path = config.initial_state_path)
         if config.title is not None:
-            env.idsgame_config.render_config.title = config.title
+            env.unwrapped.idsgame_config.render_config.title = config.title
         attacker: TrainAgent = None
         if config.attacker_type == AgentType.TABULAR_Q_AGENT.value:
             attacker = TabularQAgent(env, config.q_agent_config)
@@ -116,7 +116,7 @@ class Runner:
                        save_dir=config.output_dir + "/results/data/" + str(config.random_seed),
                        initial_state_path = config.initial_state_path)
         if config.title is not None:
-            env.idsgame_config.render_config.title = config.title
+            env.unwrapped.idsgame_config.render_config.title = config.title
         defender: TrainAgent = None
         if config.defender_type == AgentType.TABULAR_Q_AGENT.value:
             defender = TabularQAgent(env, config.q_agent_config)
@@ -157,7 +157,7 @@ class Runner:
                        save_dir=config.output_dir + "/results/data/" + str(config.random_seed),
                        initial_state_path = config.initial_state_path)
         if config.title is not None:
-            env.idsgame_config.render_config.title = config.title
+            env.unwrapped.idsgame_config.render_config.title = config.title
         agent: TrainAgent = None
         if config.attacker_type == AgentType.TABULAR_Q_AGENT.value:
             agent = TabularQAgent(env, config.q_agent_config)
@@ -197,20 +197,20 @@ class Runner:
                        save_dir=config.output_dir + "/results/data",
                        initial_state_path = config.initial_state_path)
         if config.title is not None:
-            env.idsgame_config.render_config.title = config.title
+            env.unwrapped.idsgame_config.render_config.title = config.title
         if not issubclass(type(env), AttackDefenseEnv):
             raise AssertionError("Simulations can only be run for Attack-Defense environments")
 
         defender: BotAgent = None
         if config.defender_type == AgentType.RANDOM.value:
-            defender = RandomDefenseBotAgent(env.idsgame_config.game_config)
+            defender = RandomDefenseBotAgent(env.unwrapped.idsgame_config.game_config)
         elif config.defender_type == AgentType.DEFEND_MINIMAL_VALUE.value:
-            defender = DefendMinimalValueBotAgent(env.idsgame_config.game_config)
+            defender = DefendMinimalValueBotAgent(env.unwrapped.idsgame_config.game_config)
         elif config.defender_type == AgentType.TABULAR_Q_AGENT.value:
             if config.q_agent_config is None or config.q_agent_config.defender_load_path is None:
                 raise ValueError("To run a simulation with a tabular Q-agent, the path to the saved "
                                  "Q-table must be specified")
-            defender = TabularQDefenderBotAgent(env.idsgame_config.game_config, config.q_agent_config.defender_load_path)
+            defender = TabularQDefenderBotAgent(env.unwrapped.idsgame_config.game_config, config.q_agent_config.defender_load_path)
         else:
             raise AssertionError("Defender type not recognized: {}".format(config.defender_type))
 
@@ -219,16 +219,16 @@ class Runner:
             if config.q_agent_config is None or config.q_agent_config.attacker_load_path is None:
                 raise ValueError("To run a simulation with a tabular Q-agent, the path to the saved "
                                  "Q-table must be specified")
-            attacker = TabularQAttackerBotAgent(env.idsgame_config.game_config,
+            attacker = TabularQAttackerBotAgent(env.unwrapped.idsgame_config.game_config,
                                                 config.q_agent_config.attacker_load_path)
         elif config.attacker_type == AgentType.RANDOM.value:
-            attacker = RandomAttackBotAgent(env.idsgame_config.game_config, env)
+            attacker = RandomAttackBotAgent(env.unwrapped.idsgame_config.game_config, env)
         elif config.attacker_type == AgentType.ATTACK_MAXIMAL_VALUE.value:
-            attacker = AttackMaximalValueBotAgent(env.idsgame_config.game_config, env)
+            attacker = AttackMaximalValueBotAgent(env.unwrapped.idsgame_config.game_config, env)
         else:
             raise AssertionError("Attacker type not recognized: {}".format(config.attacker_type))
-        env.idsgame_config.defender_agent = defender
-        env.idsgame_config.attacker_agent = attacker
+        env.unwrapped.idsgame_config.defender_agent = defender
+        env.unwrapped.idsgame_config.attacker_agent = attacker
         simulator = Simulator(env, config.simulation_config)
         return simulator.simulate()
 
@@ -243,33 +243,33 @@ class Runner:
         env: IdsGameEnv = gym.make(config.env_name, idsgame_config = config.idsgame_config,
                                    save_dir=config.output_dir + "/results/data", initial_state_path = config.initial_state_path)
         if config.title is not None:
-            env.idsgame_config.render_config.title = config.title
+            env.unwrapped.idsgame_config.render_config.title = config.title
         if not config.bot_defender:
             if not issubclass(type(env), AttackerEnv):
                 raise AssertionError("Manual attacker play is only supported for defender-envs")
-        env.idsgame_config.game_config.manual_attacker = True
+        env.unwrapped.idsgame_config.game_config.manual_attacker = True
         if config.bot_defender:
             defender : BotAgent = None
             if config.defender_type == AgentType.TABULAR_Q_AGENT.value:
                 if config.q_agent_config is None or config.q_agent_config.defender_load_path is None:
                     raise ValueError("To run a simulation with a tabular Q-agent, the path to the saved "
                                      "Q-table must be specified")
-                defender = TabularQAttackerBotAgent(env.idsgame_config.game_config,
+                defender = TabularQAttackerBotAgent(env.unwrapped.idsgame_config.game_config,
                                                     config.q_agent_config.defender_load_path)
             elif config.defender_type == AgentType.RANDOM.value:
-                defender = RandomDefenseBotAgent(env.idsgame_config.game_config)
+                defender = RandomDefenseBotAgent(env.unwrapped.idsgame_config.game_config)
             elif config.defender_type == AgentType.DEFEND_MINIMAL_VALUE.value:
-                defender = DefendMinimalValueBotAgent(env.idsgame_config.game_config)
+                defender = DefendMinimalValueBotAgent(env.unwrapped.idsgame_config.game_config)
             elif config.defender_type == AgentType.PPO_OPENAI_AGENT.value:
                 if config.pg_agent_config is None or config.pg_agent_config.defender_load_path is None:
                     raise ValueError("To run a simulation with a pretrained OpenAIPPO agent, the path to the saved "
                                      "model must be specified")
-                defender = PPOBaselineDefenderBotAgent(config.pg_agent_config, env.idsgame_config.game_config,
+                defender = PPOBaselineDefenderBotAgent(config.pg_agent_config, env.unwrapped.idsgame_config.game_config,
                                                     config.pg_agent_config.defender_load_path, env=env)
             else:
                 raise AssertionError("Defender type not recognized: {}".format(config.defender_type))
-            env.idsgame_config.defender_agent = defender
-        ManualAttackAgent(env.idsgame_config)
+            env.unwrapped.idsgame_config.defender_agent = defender
+        ManualAttackAgent(env.unwrapped.idsgame_config)
         return env
 
     @staticmethod
