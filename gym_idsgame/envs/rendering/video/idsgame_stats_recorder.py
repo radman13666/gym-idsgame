@@ -4,7 +4,7 @@ import time
 
 from gym import error
 # from gym.utils import atomic_write
-from gym_idsgame.envs.rendering.util.render_util import atomic_write
+from gym_idsgame.envs.rendering.util.atomic_write import atomic_write
 from gym.utils.json_utils import json_encode_np
 
 class StatsRecorder(object):

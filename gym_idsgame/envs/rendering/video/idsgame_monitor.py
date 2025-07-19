@@ -3,7 +3,7 @@ from gym import error, version, logger
 import os, json, numpy as np, six
 # from gym.utils import atomic_write, closer
 from gym_idsgame.envs.rendering.util.monitor_closer import MonitorCloser
-from gym_idsgame.envs.rendering.util.render_util import atomic_write
+from gym_idsgame.envs.rendering.util.atomic_write import atomic_write
 from gym.utils.json_utils import json_encode_np
 import imageio
 from gym_idsgame.envs.rendering.video import idsgame_video_recorder
