@@ -223,7 +223,7 @@ class IdsGameEnv(gym.Env, ABC):
         trajectory.append(self.state)
         if self.idsgame_config.save_trajectories:
             self.game_trajectories.append(trajectory)
-        return observation[0], reward, self.state.done, self.state.done, info
+        return observation, reward, self.state.done, self.state.done, info
 
     def reset(self, seed: int = 0, update_stats = False) -> np.ndarray:
         """
