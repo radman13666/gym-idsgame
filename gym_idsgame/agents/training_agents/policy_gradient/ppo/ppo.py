@@ -727,7 +727,8 @@ class PPOAgent(PolicyGradientAgent):
 
             # Reset environment for the next episode and update game stats
             done = False
-            attacker_obs, defender_obs = self.env.reset(update_stats=True)
+            obs, _ = self.env.reset(update_stats=True)
+            attacker_obs, defender_obs = obs
             attacker_state = self.update_state(attacker_obs=attacker_obs, defender_obs=defender_obs, state=[], attacker=True)
             defender_state = self.update_state(defender_obs=defender_obs, attacker_obs=attacker_obs, state=[], attacker=False)
             self.outer_train.update(1)
@@ -965,7 +966,8 @@ class PPOAgent(PolicyGradientAgent):
             "acc_D_R:{:.2f}".format(0.0, 0,0, 0.0, 0.0, 0.0, 0.0))
 
         # Eval
-        attacker_obs, defender_obs = self.env.reset(update_stats=False)
+        obs, _ = self.env.reset(update_stats=False)
+        attacker_obs, defender_obs = obs
         attacker_state = self.update_state(attacker_obs=attacker_obs, defender_obs=defender_obs, state=[], attacker=True)
         defender_state = self.update_state(defender_obs=defender_obs, attacker_obs=attacker_obs, state=[], attacker=False)
 
@@ -990,7 +992,7 @@ class PPOAgent(PolicyGradientAgent):
                 action = (attacker_action, defender_action)
 
                 # Take a step in the environment
-                obs_prime, reward, done, _ = self.env.step(action)
+                obs_prime, reward, done, _, _ = self.env.step(action)
 
                 # Update state information and metrics
                 attacker_reward, defender_reward = reward
@@ -1055,7 +1057,8 @@ class PPOAgent(PolicyGradientAgent):
 
             # Reset for new eval episode
             done = False
-            attacker_obs, defender_obs = self.env.reset(update_stats=False)
+            obs, _ = self.env.reset(update_stats=False)
+            attacker_obs, defender_obs = obs
             attacker_state = self.update_state(attacker_obs=attacker_obs, defender_obs=defender_obs, state=attacker_state, attacker=True)
             defender_state = self.update_state(defender_obs=defender_obs, attacker_obs=attacker_obs, state=defender_state, attacker=False)
             self.outer_eval.update(1)
