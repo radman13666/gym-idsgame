@@ -333,7 +333,7 @@ class PPOAgent(PolicyGradientAgent):
         :param opponent_pool: boolean flag, if true get model from opponent pool
         :return: The sampled action id, log probability of action id, state value, action distribution
         """
-        print(f'state: {state}')
+        # print(f'state: {state}')
 
         state = torch.from_numpy(state.flatten()).float()
 
@@ -813,7 +813,7 @@ class PPOAgent(PolicyGradientAgent):
             tag = "Defender"
             file_suffix = "initial_state_policy_defender"
         title = tag + " Initial State Policy"
-        data = idsgame_util.action_dist_hist(sample, title=title, xlabel="Action", ylabel=r"$\mathbb{P}(a|s)$",
+        data = idsgame_util.action_dist_hist(sample, title=title, xlabel="Action", ylabel=r"P(a|s)",
                                       file_name=self.config.save_dir + "/" + file_suffix + "_" + str(episode))
         self.tensorboard_writer.add_image(str(episode) + "_initial_state_policy/" + tag,
                                           data, global_step=episode, dataformats="HWC")

@@ -277,14 +277,17 @@ def action_dist_hist(data: np.ndarray,
     :param xlims: xlimits (optional)
     :return: numpy array of the figure
     """
-    plt.rc('text', usetex=True)
-    plt.rc('text.latex', preamble=r'\usepackage{amsfonts}')
+
+    # Remove LaTeX usage
+    plt.rcParams["text.usetex"] = False
+
+    # plt.rc('text', usetex=True)
+    # plt.rc('text.latex', preamble=r'\usepackage{amsfonts}')
     fig, ax = plt.subplots(nrows=1, ncols=1, figsize=(8, 3))
     if xlims is None:
-        xlims = (min(data),
-                 max(data))
+        xlims = (min(data), max(data))
 
-    sns.distplot(data, kde=True,
+    sns.histplot(data, kde=True,
               color = 'darkblue',
              hist_kws={'edgecolor':'black'},
              kde_kws={'linewidth': 0.5}, bins=xlims[1], fit=None)
