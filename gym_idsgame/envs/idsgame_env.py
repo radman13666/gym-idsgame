@@ -118,7 +118,7 @@ class IdsGameEnv(gym.Env, ABC):
         self.state.defense_events = []
 
         if self.state.game_step > constants.GAME_CONFIG.MAX_GAME_STEPS:
-            return self.get_observation()[0], (100*constants.GAME_CONFIG.NEGATIVE_REWARD,
+            return self.get_observation(), (100*constants.GAME_CONFIG.NEGATIVE_REWARD,
                                             100*constants.GAME_CONFIG.NEGATIVE_REWARD), True, True, info
 
         attack_action, defense_action = action
@@ -223,7 +223,7 @@ class IdsGameEnv(gym.Env, ABC):
         trajectory.append(self.state)
         if self.idsgame_config.save_trajectories:
             self.game_trajectories.append(trajectory)
-        return observation[0], reward, self.state.done, self.state.done, info
+        return observation, reward, self.state.done, self.state.done, info
 
     def reset(self, seed: int = 0, update_stats = False) -> np.ndarray:
         """
@@ -263,7 +263,7 @@ class IdsGameEnv(gym.Env, ABC):
         self.attacks = []
         self.hacked_nodes = []
         self.num_failed_attacks = 0
-        return observation[0], {}
+        return observation, {}
 
     def restart(self) -> np.ndarray:
         """
