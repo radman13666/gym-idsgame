@@ -12,7 +12,7 @@ except:
     pass
 
 from gym_idsgame.envs.idsgame_env import IdsGameV21Env
-from gym_idsgame.envs.idsgame_env import IdsGameMinimalDefenseV21Env
+from gym_idsgame.envs.idsgame_env import IdsGameRandomAttackV21Env
 from gym_idsgame.config.client_config import ClientConfig
 from gym_idsgame.config.runner_mode import RunnerMode
 from gym_idsgame.agents.dao.agent_type import AgentType
@@ -117,7 +117,7 @@ class Runner:
         # env = gym.make(config.env_name, idsgame_config = config.idsgame_config,
         #                save_dir=config.output_dir + "/results/data/" + str(config.random_seed),
         #                initial_state_path = config.initial_state_path)
-        env = IdsGameMinimalDefenseV21Env(idsgame_config = config.idsgame_config,
+        env = IdsGameRandomAttackV21Env(idsgame_config = config.idsgame_config,
                        save_dir=config.output_dir + "/results/data/" + str(config.random_seed),
                        initial_state_path = config.initial_state_path)
         if config.title is not None:
