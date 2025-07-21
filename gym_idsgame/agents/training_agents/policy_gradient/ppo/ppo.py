@@ -399,7 +399,7 @@ class PPOAgent(PolicyGradientAgent):
         if len(self.train_result.avg_episode_steps) > 0:
             self.config.logger.warning("starting training with non-empty result object")
         done = False
-        obs = self.env.reset(update_stats=False)
+        obs, _ = self.env.reset(update_stats=False)
         attacker_obs, defender_obs = obs
 
         attacker_state = self.update_state(attacker_obs=attacker_obs, defender_obs=defender_obs, state=[], attacker=True)
