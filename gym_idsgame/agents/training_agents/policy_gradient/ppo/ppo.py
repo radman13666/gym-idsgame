@@ -333,10 +333,9 @@ class PPOAgent(PolicyGradientAgent):
         :param opponent_pool: boolean flag, if true get model from opponent pool
         :return: The sampled action id, log probability of action id, state value, action distribution
         """
-        state = np.array(state, dtype=np.float32).flatten()
-        state = torch.from_numpy(state).float()
+        print(f'state: {state}')
 
-        #state = torch.from_numpy(state.flatten()).float()
+        state = torch.from_numpy(state.flatten()).float()
 
         # Move to GPU if using GPU
         if torch.cuda.is_available() and self.config.gpu:
