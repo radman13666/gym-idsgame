@@ -532,7 +532,7 @@ class PPOAgent(PolicyGradientAgent):
                 action = (attacker_action, defender_action)
 
                 # Take a step in the environment
-                obs_prime, reward, done, _ = self.env.step(action)
+                obs_prime, reward, done, _, _ = self.env.step(action)
 
                 # Update metrics
                 attacker_reward, defender_reward = reward

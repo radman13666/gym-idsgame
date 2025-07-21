@@ -118,7 +118,7 @@ class IdsGameEnv(gym.Env, ABC):
         self.state.defense_events = []
 
         if self.state.game_step > constants.GAME_CONFIG.MAX_GAME_STEPS:
-            return self.get_observation()[0], (100*constants.GAME_CONFIG.NEGATIVE_REWARD,
+            return self.get_observation(), (100*constants.GAME_CONFIG.NEGATIVE_REWARD,
                                             100*constants.GAME_CONFIG.NEGATIVE_REWARD), True, True, info
 
         attack_action, defense_action = action
