@@ -247,7 +247,13 @@ class PPOAgent(PolicyGradientAgent):
                 # Evaluating old actions and values using policy net
                 logprobs, state_values, dist_entropy = self.policy_prediction(old_states, old_actions,
                                                                               attacker=attacker)
-
+                # Ensure consistent float32 dtype
+                logprobs = logprobs.float()
+                state_values = state_values.float()
+                dist_entropy = dist_entropy.float()
+                old_logprobs = old_logprobs.float()
+                returns = returns.float()
+                
                 # Finding the ratio pi_theta/pi_theta_old
                 ratios = torch.exp(logprobs - old_logprobs.detach())
 
