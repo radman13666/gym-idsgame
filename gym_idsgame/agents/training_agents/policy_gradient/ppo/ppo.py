@@ -525,7 +525,7 @@ class PPOAgent(PolicyGradientAgent):
                     saved_defender_actions.append(torch.tensor(defender_action))
                     saved_defender_log_probs.append(defender_log_prob)
                     saved_defender_state_values.append(defender_state_value)
-                    saved_attacker_states.append(torch.from_numpy(defender_state.flatten()).float())
+                    saved_defender_states.append(torch.from_numpy(defender_state.flatten()).float())
                     if episode_step == 0:
                         defender_initial_state_action_dist = defender_action_dist
 
