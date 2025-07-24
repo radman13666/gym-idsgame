@@ -23,6 +23,8 @@ from gym_idsgame.agents.training_agents.policy_gradient.reinforce.reinforce impo
 from gym_idsgame.agents.training_agents.policy_gradient.reinforce.reinforce_attacker_bot_agent import ReinforceAttackerBotAgent
 from gym_idsgame.agents.training_agents.policy_gradient.actor_critic.actor_critic import ActorCriticAgent
 from gym_idsgame.agents.training_agents.policy_gradient.ppo.ppo import PPOAgent
+from gym_idsgame.agents.training_agents.policy_gradient.ppo.ppo_defender_bot_agent import PPODefenderBotAgent
+from gym_idsgame.agents.training_agents.policy_gradient.ppo.ppo_attacker_bot_agent import PPOAttackerBotAgent
 from gym_idsgame.agents.training_agents.openai_baselines.ppo.ppo import OpenAiPPOAgent
 from gym_idsgame.agents.training_agents.openai_baselines.ppo.ppo_attacker_bot_agent import PPOBaselineAttackerBotAgent
 from gym_idsgame.agents.training_agents.openai_baselines.ppo.ppo_defender_bot_agent import PPOBaselineDefenderBotAgent
@@ -223,6 +225,10 @@ class Runner:
                 raise ValueError("To run a simulation with a tabular Q-agent, the path to the saved "
                                  "Q-table must be specified")
             defender = TabularQDefenderBotAgent(env.idsgame_config.game_config, config.q_agent_config.defender_load_path)
+        elif config.defender_type == AgentType.PPO_AGENT.value:
+            if config.pg_agent_config is None or config.pg_agent_config.defender_load_path is None:
+                raise ValueError("To run a simulation with a PPO agent, the path to the saved PPO model must be specified")
+            defender = PPODefenderBotAgent(config.pg_agent_config, config.idsgame_config.game_config, config.pg_agent_config.defender_load_path, env)
         else:
             raise AssertionError("Defender type not recognized: {}".format(config.defender_type))
 
@@ -237,6 +243,10 @@ class Runner:
             attacker = RandomAttackBotAgent(env.idsgame_config.game_config, env)
         elif config.attacker_type == AgentType.ATTACK_MAXIMAL_VALUE.value:
             attacker = AttackMaximalValueBotAgent(env.idsgame_config.game_config, env)
+        elif config.attacker_type == AgentType.PPO_AGENT.value:
+            if config.pg_agent_config is None or config.pg_agent_config.attacker_load_path is None:
+                raise ValueError("To run a simulation with a PPO agent, the path to the saved PPO model must be specified")
+            attacker = PPOAttackerBotAgent(config.pg_agent_config, config.idsgame_config.game_config, config.pg_agent_config.attacker_load_path, env)
         else:
             raise AssertionError("Attacker type not recognized: {}".format(config.attacker_type))
         env.idsgame_config.defender_agent = defender

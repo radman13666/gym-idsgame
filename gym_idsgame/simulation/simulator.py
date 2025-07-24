@@ -59,7 +59,7 @@ class Simulator:
         episode_steps = []
 
         # Simulate
-        obs = self.env.reset()
+        obs, _ = self.env.reset()
         for episode in range(self.config.num_episodes):
             i = 0
             episode_step = 0
@@ -71,7 +71,7 @@ class Simulator:
                 defense_id = self.defender.action(self.env.state)
                 attack_id = self.attacker.action(self.env.state)
                 action = (attack_id, defense_id)
-                obs, _, done, _ = self.env.step(action)
+                obs, _, done, _, _ = self.env.step(action)
                 episode_step += 1
             if self.config.render:
                 self.env.render()
@@ -84,11 +84,10 @@ class Simulator:
                 self.log_metrics(self.experiment_result, episode_steps)
                 episode_steps = []
             if self.config.gifs and self.config.video:
-                self.env.generate_gif(self.config.gif_dir + "/episode_" + str(episode) + "_"
-                                      + time_str + ".gif", self.config.video_fps)
+                self.env.generate_gif(self.config.gif_dir + "/episode_" + str(episode) + "_" + time_str + ".gif", self.config.video_fps)
 
             done = False
-            obs = self.env.reset(update_stats=True)
+            obs, _ = self.env.reset(update_stats=True)
             self.outer.update(1)
 
         self.env.close()
