@@ -207,8 +207,11 @@ class Runner:
         :return: experiment result
         """
         env: IdsGameEnv = None
-        env = gym.make(config.env_name, idsgame_config = config.idsgame_config,
-                       save_dir=config.output_dir + "/results/data",
+        # env = gym.make(config.env_name, idsgame_config = config.idsgame_config,
+        #                save_dir=config.output_dir + "/results/data",
+        #                initial_state_path = config.initial_state_path)
+        env = IdsGameV21Env(idsgame_config = config.idsgame_config,
+                       save_dir=config.output_dir + "/results/data/" + str(config.random_seed),
                        initial_state_path = config.initial_state_path)
         if config.title is not None:
             env.idsgame_config.render_config.title = config.title
