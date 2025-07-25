@@ -231,7 +231,7 @@ class Runner:
         elif config.defender_type == AgentType.PPO_AGENT.value:
             if config.pg_agent_config is None or config.pg_agent_config.defender_load_path is None:
                 raise ValueError("To run a simulation with a PPO agent, the path to the saved PPO model must be specified")
-            defender = PPODefenderBotAgent(config.pg_agent_config, config.idsgame_config.game_config, config.pg_agent_config.defender_load_path, env)
+            defender = PPODefenderBotAgent(config.pg_agent_config, env.idsgame_config.game_config, config.pg_agent_config.defender_load_path, env)
         else:
             raise AssertionError("Defender type not recognized: {}".format(config.defender_type))
 
@@ -249,7 +249,7 @@ class Runner:
         elif config.attacker_type == AgentType.PPO_AGENT.value:
             if config.pg_agent_config is None or config.pg_agent_config.attacker_load_path is None:
                 raise ValueError("To run a simulation with a PPO agent, the path to the saved PPO model must be specified")
-            attacker = PPOAttackerBotAgent(config.pg_agent_config, config.idsgame_config.game_config, config.pg_agent_config.attacker_load_path, env)
+            attacker = PPOAttackerBotAgent(config.pg_agent_config, env.idsgame_config.game_config, config.pg_agent_config.attacker_load_path, env)
         else:
             raise AssertionError("Attacker type not recognized: {}".format(config.attacker_type))
         env.idsgame_config.defender_agent = defender
