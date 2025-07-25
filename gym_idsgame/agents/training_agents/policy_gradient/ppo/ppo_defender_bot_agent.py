@@ -35,8 +35,8 @@ class PPODefenderBotAgent(BotAgent):
         self.idsgame_env = env
         self.config = pg_config
         self.model_path = model_path
-        self.initialize_models()
         self.device = "cpu" if not self.config.gpu else "cuda:" + str(self.config.gpu_id)
+        self.initialize_models()
 
 
     def initialize_models(self) -> None:
