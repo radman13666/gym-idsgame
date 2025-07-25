@@ -145,7 +145,7 @@ class PPOAttackerBotAgent(BotAgent):
         
         :return: new state
         """
-        if self.env.fully_observed():
+        if self.idsgame_env.fully_observed():
             if self.config.merged_ad_features:
                 a_pos = attacker_obs[:,-1]
                 det_values = defender_obs[:, -1]
