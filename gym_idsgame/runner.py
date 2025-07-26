@@ -213,6 +213,8 @@ class Runner:
         env = IdsGameV21Env(idsgame_config = config.idsgame_config,
                        save_dir=config.output_dir + "/results/data/" + str(config.random_seed),
                        initial_state_path = config.initial_state_path)
+        env.idsgame_config.save_trajectories = True
+        env.idsgame_config.save_attack_stats = True
         if config.title is not None:
             env.idsgame_config.render_config.title = config.title
         if not issubclass(type(env), AttackDefenseEnv):

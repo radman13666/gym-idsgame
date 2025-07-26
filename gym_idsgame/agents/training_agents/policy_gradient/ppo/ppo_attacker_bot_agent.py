@@ -112,19 +112,25 @@ class PPOAttackerBotAgent(BotAgent):
         # Forward pass using the current policy network to predict P(a|s)
         action_probs, state_value = self.attacker_policy_network(state)
         
+        print(f'actions: {actions}\nlegal_actions: {legal_actions}\nnon_legal_actions: {non_legal_actions}')
+        print(f'action_probs: {action_probs}\nstate_value: {state_value}')
+        
         # Set probability of non-legal actions to 0
         action_probs_1 = action_probs.clone()
         if len(legal_actions) > 0:
             action_probs_1[non_legal_actions] = 0
 
+        print(f'action_probs_1: {action_probs_1}')
         # Use torch.distributions package to create a parameterizable probability distribution of the learned policy
         # PG uses a trick to turn the gradient into a stochastic gradient which we can sample from in order to
         # approximate the true gradient (which we can’t compute directly). It can be seen as an alternative to the
         # reparameterization trick
         policy_dist = Categorical(action_probs_1)
+        print(f'policy_dist: {policy_dist}')
 
         # Sample an action from the probability distribution
         action = policy_dist.sample()
+        print(f'action: {action}')
 
         # log_prob returns the log of the probability density/mass function evaluated at value.
         # save the log_prob as it will use later on for computing the policy gradient

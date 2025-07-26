@@ -53,10 +53,16 @@ class IdsGameEnv(gym.Env, ABC):
         self.validate_config(idsgame_config)
         self.idsgame_config: IdsGameConfig = idsgame_config
         self.state: GameState = self.idsgame_config.game_config.initial_state.copy()
-        self.observation_space = self.idsgame_config.game_config.get_attacker_observation_space()
-        self.action_space = self.idsgame_config.game_config.get_action_space(defender=False)
+
         self.attacker_action_space = self.idsgame_config.game_config.get_action_space(defender=False)
+        self.attacker_observation_space = self.idsgame_config.game_config.get_attacker_observation_space()
+
         self.defender_action_space = self.idsgame_config.game_config.get_action_space(defender=True)
+        self.defender_observation_space = self.idsgame_config.game_config.get_defender_observation_space()
+
+        self.observation_space = gym.spaces.Tuple((self.attacker_observation_space, self.defender_observation_space))
+        self.action_space = gym.spaces.Tuple((self.attacker_action_space, self.defender_action_space))
+
         self.viewer = None
         self.steps_beyond_done = None
         self.metadata = {
@@ -719,6 +725,7 @@ class AttackerEnv(IdsGameEnv, ABC):
         if idsgame_config.defender_agent is None:
             raise ValueError("Cannot instantiate attacker-env without a defender agent")
         super().__init__(idsgame_config=idsgame_config, save_dir=save_dir, initial_state_path=initial_state_path)
+        self.action_space = self.idsgame_config.game_config.get_action_space(defender=False)
         self.observation_space = self.idsgame_config.game_config.get_attacker_observation_space()
 
     def get_attacker_action(self, action) -> Union[int, Union[int, int], int]:
@@ -754,6 +761,7 @@ class DefenderEnv(IdsGameEnv, ABC):
         if idsgame_config.attacker_agent is None:
             raise ValueError("Cannot instantiate defender-env without an attacker agent")
         super().__init__(idsgame_config=idsgame_config, save_dir=save_dir, initial_state_path=initial_state_path)
+        self.action_space = self.idsgame_config.game_config.get_action_space(defender=True)
         self.observation_space = self.idsgame_config.game_config.get_defender_observation_space()
 
     def get_defender_action(self, action) -> Union[int, Union[int, int], int]:
