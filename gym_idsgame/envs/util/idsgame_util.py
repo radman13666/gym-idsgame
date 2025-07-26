@@ -163,8 +163,10 @@ def interpret_attack_action(action: int, game_config) -> Union[int, Union[int, i
     """
     if not game_config.reconnaissance_actions:
         server_id = action // game_config.num_attack_types
+        print(f'server_id: {server_id}\naction: {action}\nattack_types:{game_config.num_attack_types}')
     else:
         server_id = action // (game_config.num_attack_types +1)
+        print(f'server_id: {server_id}\naction: {action}\nattack_types:{game_config.num_attack_types+1}')
         #server_id = action // (game_config.num_attack_types*2)
 
     server_pos = game_config.network_config.get_node_pos(server_id)
