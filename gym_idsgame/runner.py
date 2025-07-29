@@ -87,8 +87,8 @@ class Runner:
                        save_dir=config.output_dir + "/results/data/" + str(config.random_seed),
                        initial_state_path = config.initial_state_path)
         
-        config.pg_agent_config.input_dim_attacker = reduce(mul, env.attacker_observation_space.shape())
-        config.pg_agent_config.output_dim_attacker = env.attacker_action_space.shape()[0]
+        config.pg_agent_config.input_dim_attacker = reduce(mul, env.attacker_observation_space.shape)
+        config.pg_agent_config.output_dim_attacker = env.attacker_action_space.shape[0]
 
         if config.title is not None:
             env.idsgame_config.render_config.title = config.title
@@ -130,8 +130,8 @@ class Runner:
                        save_dir=config.output_dir + "/results/data/" + str(config.random_seed),
                        initial_state_path = config.initial_state_path)
         
-        config.pg_agent_config.input_dim_defender = reduce(mul, env.defender_observation_space.shape())
-        config.pg_agent_config.output_dim_defender = env.defender_action_space.shape()[0]
+        config.pg_agent_config.input_dim_defender = reduce(mul, env.defender_observation_space.shape)
+        config.pg_agent_config.output_dim_defender = env.defender_action_space.shape[0]
 
         if config.title is not None:
             env.idsgame_config.render_config.title = config.title
@@ -175,11 +175,11 @@ class Runner:
                        save_dir=config.output_dir + "/results/data/" + str(config.random_seed),
                        initial_state_path = config.initial_state_path)
         
-        config.pg_agent_config.input_dim_attacker = reduce(mul, env.attacker_observation_space.shape())
-        config.pg_agent_config.output_dim_attacker = env.attacker_action_space.shape()[0]
+        config.pg_agent_config.input_dim_attacker = reduce(mul, env.attacker_observation_space.shape)
+        config.pg_agent_config.output_dim_attacker = env.attacker_action_space.shape[0]
 
-        config.pg_agent_config.input_dim_defender = reduce(mul, env.defender_observation_space.shape())
-        config.pg_agent_config.output_dim_defender = env.defender_action_space.shape()[0]
+        config.pg_agent_config.input_dim_defender = reduce(mul, env.defender_observation_space.shape)
+        config.pg_agent_config.output_dim_defender = env.defender_action_space.shape[0]
 
         if config.title is not None:
             env.idsgame_config.render_config.title = config.title
