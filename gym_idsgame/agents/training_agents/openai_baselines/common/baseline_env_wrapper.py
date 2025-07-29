@@ -17,13 +17,9 @@ class BaselineEnvWrapper(gym.Env):
     A wrapper environment to integrate idsgame-env with the OpenAI baselines library
     """
 
-    def __init__(self, env_name: str, idsgame_config: IdsGameConfig = None, save_dir: str = None,
-                 initial_state_path: str = None,
-                 pg_agent_config: PolicyGradientAgentConfig = None):
+    def __init__(self, env, pg_agent_config: PolicyGradientAgentConfig = None):
         super(BaselineEnvWrapper, self).__init__()
-        self.idsgame_env = gym.make(env_name, idsgame_config=idsgame_config,
-                                    save_dir=save_dir,
-                                    initial_state_path=initial_state_path)
+        self.idsgame_env = env
         self.pg_agent_config = pg_agent_config
         self.attacker_action_space = self.idsgame_env.attacker_action_space
         self.defender_action_space = self.idsgame_env.defender_action_space
@@ -64,7 +60,7 @@ class BaselineEnvWrapper(gym.Env):
             attacker_obs, _ = self.idsgame_env.get_observation()
             attacker_action = self.convert_local_attacker_action_to_global(attacker_action, attacker_obs)
         joint_action = (attacker_action, defender_action)
-        obs_prime, reward, done, info = self.idsgame_env.step(joint_action)
+        obs_prime, reward, done, _, info = self.idsgame_env.step(joint_action)
         self.latest_obs = obs_prime
         attacker_reward, defender_reward = reward
         obs_prime_attacker, obs_prime_defender = obs_prime
@@ -184,7 +180,6 @@ class BaselineEnvWrapper(gym.Env):
                 return util.is_node_attack_legal(attack_action, self.idsgame_env.state.attacker_pos, self.idsgame_env.idsgame_config.game_config.network_config)
             else:
                 return True
-
 
     def is_defense_legal(self, defense_action: int, node  :bool = False, obs : th.Tensor = None) -> bool:
         """
@@ -511,9 +506,6 @@ class BaselineEnvWrapper(gym.Env):
         # print(feature_frames)
         return feature_frames
         #raise AssertionError("test")
-
-
-
 
     def grid_obs(self, attacker_obs, defender_obs, attacker=True):
 

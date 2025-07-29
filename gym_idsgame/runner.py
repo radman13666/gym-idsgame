@@ -12,7 +12,7 @@ except:
     pass
 
 from gym_idsgame.envs.idsgame_env import IdsGameV21Env
-from gym_idsgame.envs.idsgame_env import IdsGameRandomAttackV21Env
+from gym_idsgame.envs.idsgame_env import IdsGameMaximalAttackV21Env
 from gym_idsgame.envs.idsgame_env import IdsGameMinimalDefenseV21Env
 from gym_idsgame.config.client_config import ClientConfig
 from gym_idsgame.config.runner_mode import RunnerMode
@@ -98,10 +98,7 @@ class Runner:
         elif config.attacker_type == AgentType.PPO_AGENT.value:
             attacker = PPOAgent(env, config.pg_agent_config)
         elif config.attacker_type == AgentType.PPO_OPENAI_AGENT.value:
-            wrapper_env = BaselineEnvWrapper(config.env_name, idsgame_config=config.idsgame_config,
-                                             save_dir=config.output_dir + "/results/data/" + str(config.random_seed),
-                                             initial_state_path=config.initial_state_path,
-                                             pg_agent_config=config.pg_agent_config)
+            wrapper_env = BaselineEnvWrapper(env, pg_agent_config=config.pg_agent_config)
             if config.title is not None:
                 wrapper_env.idsgame_env.idsgame_config.render_config.title = config.title
             attacker = OpenAiPPOAgent(wrapper_env, config.pg_agent_config)
@@ -123,7 +120,7 @@ class Runner:
         # env = gym.make(config.env_name, idsgame_config = config.idsgame_config,
         #                save_dir=config.output_dir + "/results/data/" + str(config.random_seed),
         #                initial_state_path = config.initial_state_path)
-        env = IdsGameRandomAttackV21Env(idsgame_config = config.idsgame_config,
+        env = IdsGameMaximalAttackV21Env(idsgame_config = config.idsgame_config,
                        save_dir=config.output_dir + "/results/data/" + str(config.random_seed),
                        initial_state_path = config.initial_state_path)
         if config.title is not None:
@@ -140,10 +137,7 @@ class Runner:
         elif config.defender_type == AgentType.PPO_AGENT.value:
             defender =  PPOAgent(env, config.pg_agent_config)
         elif config.defender_type == AgentType.PPO_OPENAI_AGENT.value:
-            wrapper_env = BaselineEnvWrapper(config.env_name, idsgame_config=config.idsgame_config,
-                                             save_dir=config.output_dir + "/results/data/" + str(config.random_seed),
-                                             initial_state_path=config.initial_state_path,
-                                             pg_agent_config=config.pg_agent_config)
+            wrapper_env = BaselineEnvWrapper(env, pg_agent_config=config.pg_agent_config)
             if config.title is not None:
                 wrapper_env.idsgame_env.idsgame_config.render_config.title = config.title
             defender = OpenAiPPOAgent(wrapper_env, config.pg_agent_config)
@@ -184,10 +178,7 @@ class Runner:
         elif config.attacker_type == AgentType.PPO_AGENT.value:
             agent = PPOAgent(env, config.pg_agent_config)
         elif config.attacker_type == AgentType.PPO_OPENAI_AGENT.value:
-            wrapper_env = BaselineEnvWrapper(config.env_name, idsgame_config=config.idsgame_config,
-                                             save_dir=config.output_dir + "/results/data/" + str(config.random_seed),
-                                             initial_state_path=config.initial_state_path,
-                                             pg_agent_config=config.pg_agent_config)
+            wrapper_env = BaselineEnvWrapper(env, pg_agent_config=config.pg_agent_config)
             if config.title is not None:
                 wrapper_env.idsgame_env.idsgame_config.render_config.title = config.title
             agent = OpenAiPPOAgent(wrapper_env, config.pg_agent_config)
