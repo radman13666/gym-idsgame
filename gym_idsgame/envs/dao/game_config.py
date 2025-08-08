@@ -152,8 +152,8 @@ class GameConfig():
         :return: observation space
         """
         high_row = np.array([self.max_value] * (self.num_attack_types + 1))
-        high = np.array([high_row] * 1)
-        low = np.zeros((1, self.num_attack_types + 1))
+        high = np.array([high_row] * self.num_nodes)
+        low = np.zeros((self.num_nodes, self.num_attack_types + 1))
         observation_space = gym.spaces.Box(low=low, high=high, dtype=np.int32)
         return observation_space
 
